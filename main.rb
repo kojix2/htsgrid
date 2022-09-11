@@ -8,7 +8,16 @@ class HTSGrid
   def initialize
     @fpath = File.expand_path(ARGV[0])
 
-    @bam = HTS::Bam.open(@fpath)
+    open_bam @fpath
+  end
+
+  def open_bam(path)
+    begin
+      @bam = HTS::Bam.open(path)
+    rescue StandardError => e
+      message_box_error('Error', e.message)
+      return
+    end
     @data = @bam.map do |r|
       row2ary(r)
     end.to_a
@@ -32,6 +41,32 @@ class HTSGrid
   attr_accessor :position
 
   def launch
+    # menu
+    menu('File') do
+      menu_item('Open') do
+        on_clicked do
+          path = open_file
+          open_bam path if path
+        end
+      end
+
+      quit_menu_item do
+        on_clicked do
+          @bam.close
+        end
+      end
+    end
+    menu('Help') do
+      menu_item('Help')
+
+      about_menu_item do
+        on_clicked do
+          msg_box('About', 'This is a simple HTS file viewer')
+        end
+      end
+    end
+
+    # window
     window("HTSGrid - #{@fpath}", 800, 500) do
       margined true
 
