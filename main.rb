@@ -5,27 +5,10 @@ class HTSGrid
   include Glimmer
   Aln = Struct.new(:qname, :flag, :rname, :pos, :mapq, :cigar, :rnext, :pnext, :tlen, :seq, :qual)
 
-  def initialize
-    @fpath = File.expand_path(ARGV[0])
-
-    open_bam @fpath
-  end
-
-  def open_bam(path)
-    begin
-      @bam = HTS::Bam.open(path)
-    rescue StandardError => e
-      message_box_error('Error', e.message)
-      return
+  class Position < Struct.new(:chr, :pos)
+    def to_s
+      pos ? "#{chr}:#{pos}" : chr
     end
-    @data = @bam.map do |r|
-      row2ary(r)
-    end.to_a
-  end
-
-  def open_ban_dialog
-    path = open_file
-    open_bam path if path
   end
 
   def row2ary(r)
@@ -43,7 +26,45 @@ class HTSGrid
     )
   end
 
-  attr_accessor :position
+  attr_accessor :target
+
+  def initialize
+    @fpath = File.expand_path(ARGV[0])
+    @data = []
+    @target = Position.new
+
+    open_bam @fpath
+  end
+
+  def open_bam(path)
+    @bam = HTS::Bam.open(path)
+    target.chr = ''
+    target.pos = nil
+  rescue StandardError => e
+    message_box_error('Error', e.message)
+    nil
+  end
+
+  def open_ban_dialog
+    path = open_file
+    open_bam path if path
+  end
+
+  def go
+    if @target.chr == 'ALL'
+      @bam.rewind
+      @data.replace(@bam.map { |r| row2ary(r) })
+    else
+      begin
+        r = @bam.query(target.to_s).map do |r|
+          row2ary(r)
+        end.to_a
+        @data.replace(r)
+      rescue StandardError => e
+        message_box_error('Error', e.message)
+      end
+    end
+  end
 
   def launch
     # menu
@@ -87,21 +108,22 @@ class HTSGrid
               open_ban_dialog
             end
           end
+          editable_combobox do
+            stretchy false
+            items 'ALL', *@bam.header.target_names # Fixme
+            text <=> [target, :chr]
+            on_changed do
+              go
+            end
+          end
           entry do
-            label 'pos'
-            text <=> [self, :position]
+            stretchy false
+            text <=> [target, :pos]
           end
           button('Go') do
             stretchy false
             on_clicked do
-              r = @bam.query(@position).map do |r|
-                row2ary(r)
-              end.to_a
-              if r.size > 0
-                @data.replace(p(r))
-              else
-                message_box_error('Error', "No record found at position #{@position}")
-              end
+              go
             end
           end
         end
