@@ -23,6 +23,11 @@ class HTSGrid
     end.to_a
   end
 
+  def open_ban_dialog
+    path = open_file
+    open_bam path if path
+  end
+
   def row2ary(r)
     Aln.new(
       r.qname,
@@ -45,8 +50,7 @@ class HTSGrid
     menu('File') do
       menu_item('Open') do
         on_clicked do
-          path = open_file
-          open_bam path if path
+          open_ban_dialog
         end
       end
 
@@ -80,6 +84,7 @@ class HTSGrid
           button('Open') do
             stretchy false
             on_clicked do
+              open_ban_dialog
             end
           end
           entry do
