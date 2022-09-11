@@ -68,17 +68,17 @@ class HTSGrid
         refined_table(
           model_array: @data,
           table_columns: {
-            "QNAME" => :text,
-            "FLAG" => :text,
-            "RNAME" => :text,
-            "POS" => :text,
-            "MAPQ" => :text,
-            "CIGAR" => :text,
-            "RNEXT" => :text,
-            "PNEXT" => :text,
-            "TLEN" => :text,
-            "SEQ" => :text,
-            "QUAL" => :text
+            'QNAME' => :text,
+            'FLAG' => :text,
+            'RNAME' => :text,
+            'POS' => :text,
+            'MAPQ' => :text,
+            'CIGAR' => :text,
+            'RNEXT' => :text,
+            'PNEXT' => :text,
+            'TLEN' => :text,
+            'SEQ' => :text,
+            'QUAL' => :text
           },
           editable: false,
           per_page: 20
