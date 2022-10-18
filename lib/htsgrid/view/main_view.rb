@@ -1,4 +1,4 @@
-require_relative "../model/alignment"
+require_relative '../model/alignment'
 
 module HTSGrid
   module View
@@ -82,11 +82,19 @@ module HTSGrid
           end
         end
         menu('Help') do
-          menu_item('Help')
+          menu_item('Help') do
+            on_clicked do
+              msg_box('Help', 'FIXME')
+            end
+          end
 
           about_menu_item do
             on_clicked do
-              msg_box('About', 'This is a simple HTS file viewer')
+              msg_box(
+                'ℹ️ About',
+                "This is a simple HTS file viewer\n" +
+                '© 2022 kojix2'
+              )
             end
           end
         end
