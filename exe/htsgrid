@@ -3,4 +3,4 @@
 
 require 'htsgrid'
 
-HTSGrid::View::MainView.launch
+HTSGrid::View::MainView.new.launch
