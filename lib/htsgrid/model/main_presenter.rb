@@ -27,29 +27,39 @@ module HTSGrid
 
       def close
         @hts&.close
+      rescue StandardError => e
+        @err_dialog.call('Error', e.message)
+        nil
       end
 
       def open
         path = @open_dialog.call
         return if path.nil?
+
         @hts = HtsFile.new(path)
         @cb_set.call(@hts.chr_list)
+      rescue StandardError => e
+        @err_dialog.call('Error', e.message)
+        nil
       end
 
       def goto
         position = Position.new(chr, pos)
-        begin
-          position.validate
-        rescue StandardError => e
-          @err_dialog.call('Error', e.message)
-          return
-        end
+        position.validate
         new_data = @hts.query(position.to_s)
         data.replace(new_data)
+      rescue StandardError => e
+        @err_dialog.call('Error', e.message)
+        nil
       end
 
       def header
+        return if @hts.nil?
+
         @hts.header
+      rescue StandardError => e
+        @err_dialog.call('Error', e.message)
+        nil
       end
     end
   end
