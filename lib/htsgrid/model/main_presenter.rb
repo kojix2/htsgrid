@@ -31,6 +31,7 @@ module HTSGrid
 
       def open
         path = @open_dialog.call
+        return if path.nil?
         @hts = HtsFile.new(path)
         @cb_set.call(@hts.chr_list)
       end
