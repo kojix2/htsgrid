@@ -36,13 +36,13 @@ module HTSGrid
                   @presenter.open
                 end
               end
-              editable_combobox do
+              combobox do
                 stretchy false
-                items 'ALL'
-                text <=> [@presenter, :chr]
-                on_changed do
-                  # @presenter.pos = "0-0"
-                  # @presenter.goto
+                items <=> [@presenter, :chr_list]
+                selected_item <=> [@presenter, :chr]
+                on_selected do
+                  @presenter.pos = "0-1000"
+                  @presenter.goto
                 end
               end
               entry do
@@ -87,7 +87,7 @@ module HTSGrid
         menu('File') do
           menu_item('Open') do
             on_clicked do
-              open_bam_dialog
+              @presenter.open
             end
           end
 
@@ -103,7 +103,12 @@ module HTSGrid
         menu('Help') do
           menu_item('Help') do
             on_clicked do
-              msg_box('Help', 'FIXME')
+              msg_box(
+                'Help', 
+                "Please open GitHub issue to ask for help.\n" \
+                "\n" \
+                "https://github.com/kojix2/htsgrid/issues"
+              )
             end
           end
 

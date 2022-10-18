@@ -10,13 +10,16 @@ module HTSGrid
       include Glimmer
 
       attr_reader :initial_width, :initial_height, :option, :data
-      attr_accessor :chr, :pos
+      attr_accessor :chr, :pos, :chr_list
 
       def initialize(options = {}, open_dialog, err_dialog)
         @options = options
         @initial_width = 800
         @initial_height = 600
         @data = []
+        @chr_list = [""]
+        @chr = ""
+        @pos = "0-1000"
         @err_dialog = err_dialog
         @open_dialog = open_dialog
       end
@@ -28,6 +31,7 @@ module HTSGrid
       def open
         path = @open_dialog.call()
         @hts = HtsFile.new(path)
+        self.chr_list.replace(@hts.chr_list)
       end
 
       def goto
@@ -38,20 +42,7 @@ module HTSGrid
           @err_dialog.('Error', e.message)
           return
         end
-        new_data = @hts.query(position.to_s).map do |r|
-          Alignment.new(
-            r.qname,
-            r.flag.to_s,
-            r.chrom,
-            r.pos + 1,
-            r.mapq,
-            r.cigar.to_s,
-            r.mate_chrom,
-            r.mpos + 1,
-            r.isize,
-            r.seq
-          )
-        end
+        new_data = @hts.query(position.to_s)
         data.replace(new_data)
       end
     end

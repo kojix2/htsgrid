@@ -19,15 +19,35 @@ module HTSGrid
         end
       end
 
-      def query(...)
-        @hts.query(...)
+      def query(position)
+        @hts.query(position).map do |r|
+          row2ary(r)
+        end
+      end
+
+      def chr_list
+        @hts.header.target_names.clone
       end
 
       def close
         @hts&.close
       end
 
-      
+      def row2ary(r)
+        Model::Alignment.new(
+          r.qname,
+          r.flag.to_s,
+          r.chrom,
+          r.pos + 1,
+          r.mapq,
+          r.cigar.to_s,
+          r.mate_chrom,
+          r.mpos + 1,
+          r.isize,
+          r.seq,
+          r.qual_string
+        )
+      end
     end
   end
 end
