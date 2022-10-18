@@ -31,7 +31,7 @@ module HTSGrid
               button('Open') do
                 stretchy false
                 on_clicked do
-                  @presenter.open_bam_dialog
+                  @presenter.open
                 end
               end
               editable_combobox do
@@ -39,7 +39,7 @@ module HTSGrid
                 items 'ALL'
                 # text <=> [target, :chr]
                 on_changed do
-                  @presenter.go
+                  @presenter.goto
                 end
               end
               entry do
@@ -49,7 +49,7 @@ module HTSGrid
               button('Go') do
                 stretchy false
                 on_clicked do
-                  @presenter.go
+                  @presenter.goto
                 end
               end
             end

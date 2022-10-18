@@ -23,10 +23,10 @@ module HTSGrid
         []
       end
 
-      def open_bam_dialog
+      def open
       end
 
-      def go
+      def goto
       end
     end
   end
