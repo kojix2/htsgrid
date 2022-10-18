@@ -48,6 +48,10 @@ module HTSGrid
           r.qual_string
         )
       end
+
+      def header
+        @hts.header.to_s
+      end
     end
   end
 end

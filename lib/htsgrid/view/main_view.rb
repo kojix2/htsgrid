@@ -9,11 +9,18 @@ module HTSGrid
       options :initial_width, :initial_height
 
       attr_reader :presenter
+      attr_accessor :cb, :flag
 
       before_body do
-        open_dialog = ->() { open_file }
+        open_dialog = -> { open_file }
         err_dialog = ->(title, message) { msg_box_error(title, message) }
-        @presenter = Model::MainPresenter.new(options, open_dialog, err_dialog)
+        cb_set = lambda do |chr_list|
+          @flag = true
+          ::LibUI.combobox_clear(@cb.libui)
+          @cb.items = chr_list
+          @flag = false
+        end
+        @presenter = Model::MainPresenter.new(options, open_dialog, err_dialog, cb_set)
       end
 
       body do
@@ -36,13 +43,13 @@ module HTSGrid
                   @presenter.open
                 end
               end
-              combobox do
+              @cb = combobox do
                 stretchy false
-                items <=> [@presenter, :chr_list]
+                items ['']
                 selected_item <=> [@presenter, :chr]
                 on_selected do
-                  @presenter.pos = "0-1000"
-                  @presenter.goto
+                  @presenter.pos = '0-1000'
+                  @presenter.goto unless @flag
                 end
               end
               entry do
@@ -80,6 +87,7 @@ module HTSGrid
 
       def htsgrid_menu_bar
         file_menu
+        view_menu
         help_menu
       end
 
@@ -99,15 +107,28 @@ module HTSGrid
         end
       end
 
+      def view_menu
+        menu('View') do
+          menu_item('Header') do
+            on_clicked do
+              msg_box(
+                'Header',
+                @presenter.header
+              )
+            end
+          end
+        end
+      end
+
       def help_menu
         menu('Help') do
           menu_item('Help') do
             on_clicked do
               msg_box(
-                'Help', 
+                'Help',
                 "Please open GitHub issue to ask for help.\n" \
                 "\n" \
-                "https://github.com/kojix2/htsgrid/issues"
+                'https://github.com/kojix2/htsgrid/issues'
               )
             end
           end
