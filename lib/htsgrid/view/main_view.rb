@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../model/main_presenter'
 
 module HTSGrid
@@ -13,44 +15,14 @@ module HTSGrid
       end
 
       body do
-        # menu
-        menu('File') do
-          menu_item('Open') do
-            on_clicked do
-              open_ban_dialog
-            end
-          end
-
-          quit_menu_item do
-            on_clicked do
-              @bam.close
-            end
-          end
-        end
-        menu('Help') do
-          menu_item('Help') do
-            on_clicked do
-              msg_box('Help', 'FIXME')
-            end
-          end
-
-          about_menu_item do
-            on_clicked do
-              msg_box(
-                'ℹ️ About',
-                "This is a simple HTS file viewer\n" +
-                '© 2022 kojix2'
-              )
-            end
-          end
-        end
+        htsgrid_menu_bar
 
         # window
-        window("HTSGrid", 800, 500) do
+        window('HTSGrid', @presenter.initial_width, @presenter.initial_height) do
           margined true
 
           on_closing do
-            @bam.close
+            @bam&.close
           end
 
           vertical_box do
@@ -64,11 +36,7 @@ module HTSGrid
               end
               editable_combobox do
                 stretchy false
-                if @bam
-                  items 'ALL' #, *@bam.header.target_names
-                else
-                  items 'ALL'
-                end
+                items 'ALL'
                 # text <=> [target, :chr]
                 on_changed do
                   go
@@ -104,7 +72,48 @@ module HTSGrid
               per_page: 20
             )
           end
-        end.show
+        end
+      end
+
+      def htsgrid_menu_bar
+        file_menu
+        help_menu
+      end
+
+      def file_menu
+        menu('File') do
+          menu_item('Open') do
+            on_clicked do
+              open_ban_dialog
+            end
+          end
+
+          quit_menu_item do
+            on_clicked do
+              @bam.close
+            end
+          end
+        end
+      end
+
+      def help_menu
+        menu('Help') do
+          menu_item('Help') do
+            on_clicked do
+              msg_box('Help', 'FIXME')
+            end
+          end
+
+          about_menu_item do
+            on_clicked do
+              msg_box(
+                'ℹ️ About',
+                "This is a simple HTS file viewer\n" \
+                '© 2022 kojix2'
+              )
+            end
+          end
+        end
       end
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'htslib'
 require 'glimmer-dsl-libui'
 
