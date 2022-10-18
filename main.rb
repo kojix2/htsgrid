@@ -29,11 +29,11 @@ class HTSGrid
   attr_accessor :target
 
   def initialize
-    @fpath = File.expand_path(ARGV[0])
+    @fpath = ARGV[0]
     @data = []
     @target = Position.new
 
-    open_bam @fpath
+    open_bam @fpath if @fpath
   end
 
   def open_bam(path)
@@ -110,7 +110,11 @@ class HTSGrid
           end
           editable_combobox do
             stretchy false
-            items 'ALL', *@bam.header.target_names # Fixme
+            if @bam
+              items 'ALL', *@bam.header.target_names
+            else
+              items 'ALL'
+            end
             text <=> [target, :chr]
             on_changed do
               go
