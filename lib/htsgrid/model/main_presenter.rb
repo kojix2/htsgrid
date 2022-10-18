@@ -9,14 +9,15 @@ module HTSGrid
     class MainPresenter
       include Glimmer
 
-      attr_reader :initial_width, :initial_height, :option, :data
+      attr_reader :initial_width, :initial_height, :per_page, :option, :data
       attr_accessor :chr, :pos, :chr_list
 
       def initialize(options = {}, open_dialog, err_dialog, cb_set)
         @options = options
         @initial_width = 800
         @initial_height = 600
-        @data = []
+        @per_page = 30
+        @data = Array.new(per_page + 1) { Alignment.new } # FIXME: Show navigation buttons
         @chr_list = ['']
         @chr = ''
         @pos = '0-1000'

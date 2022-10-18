@@ -79,7 +79,8 @@ module HTSGrid
                 'QUAL' => :text
               },
               editable: false,
-              per_page: 20
+              per_page: @presenter.per_page,
+              visible_page_count: true,
             )
           end
         end
