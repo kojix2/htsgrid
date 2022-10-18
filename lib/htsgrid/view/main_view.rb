@@ -22,7 +22,7 @@ module HTSGrid
           margined true
 
           on_closing do
-            @bam&.close
+            @presenter.close
           end
 
           vertical_box do
@@ -31,7 +31,7 @@ module HTSGrid
               button('Open') do
                 stretchy false
                 on_clicked do
-                  open_ban_dialog
+                  @presenter.open_bam_dialog
                 end
               end
               editable_combobox do
@@ -39,7 +39,7 @@ module HTSGrid
                 items 'ALL'
                 # text <=> [target, :chr]
                 on_changed do
-                  go
+                  @presenter.go
                 end
               end
               entry do
@@ -49,12 +49,12 @@ module HTSGrid
               button('Go') do
                 stretchy false
                 on_clicked do
-                  go
+                  @presenter.go
                 end
               end
             end
             refined_table(
-              model_array: [], # @data
+              model_array: @presenter.data,
               table_columns: {
                 'QNAME' => :text,
                 'FLAG' => :text,
@@ -84,13 +84,13 @@ module HTSGrid
         menu('File') do
           menu_item('Open') do
             on_clicked do
-              open_ban_dialog
+              open_bam_dialog
             end
           end
 
           quit_menu_item do
             on_clicked do
-              @bam.close
+              @presenter.close
             end
           end
         end

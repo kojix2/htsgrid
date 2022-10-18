@@ -27,7 +27,7 @@ module HTSGrid
         nil
       end
 
-      def open_ban_dialog
+      def open_bam_dialog
         path = open_file
         open_bam path if path
       end

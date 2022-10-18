@@ -14,6 +14,20 @@ module HTSGrid
         @initial_width = 800
         @initial_height = 600
       end
+
+      def close
+        @hts&.close
+      end
+
+      def data
+        []
+      end
+
+      def open_bam_dialog
+      end
+
+      def go
+      end
     end
   end
 end
