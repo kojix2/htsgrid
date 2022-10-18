@@ -1,8 +1,9 @@
+require_relative "../model/alignment"
+
 module HTSGrid
   module View
     class MainView
       include Glimmer
-      Aln = Struct.new(:qname, :flag, :rname, :pos, :mapq, :cigar, :rnext, :pnext, :tlen, :seq, :qual)
 
       class Position < Struct.new(:chr, :pos)
         def to_s
@@ -11,7 +12,7 @@ module HTSGrid
       end
 
       def row2ary(r)
-        Aln.new(
+        Model::Alignment.new(
           r.qname,
           r.flag.to_s,
           r.chrom,
