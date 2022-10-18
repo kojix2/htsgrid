@@ -1,72 +1,18 @@
-require_relative '../model/alignment'
+require_relative '../model/main_presenter'
 
 module HTSGrid
   module View
     class MainView
-      include Glimmer
+      include Glimmer::LibUI::Application
+      options :initial_width, :initial_height
 
-      class Position < Struct.new(:chr, :pos)
-        def to_s
-          pos ? "#{chr}:#{pos}" : chr
-        end
+      attr_reader :presenter
+
+      before_body do
+        @presenter = Model::MainPresenter.new(options)
       end
 
-      def row2ary(r)
-        Model::Alignment.new(
-          r.qname,
-          r.flag.to_s,
-          r.chrom,
-          r.pos + 1,
-          r.mapq,
-          r.cigar.to_s,
-          r.mate_chrom,
-          r.mpos + 1,
-          r.isize,
-          r.seq
-        )
-      end
-
-      attr_accessor :target
-
-      def initialize
-        @fpath = ARGV[0]
-        @data = []
-        @target = Position.new
-
-        open_bam @fpath if @fpath
-      end
-
-      def open_bam(path)
-        @bam = HTS::Bam.open(path)
-        target.chr = ''
-        target.pos = nil
-      rescue StandardError => e
-        message_box_error('Error', e.message)
-        nil
-      end
-
-      def open_ban_dialog
-        path = open_file
-        open_bam path if path
-      end
-
-      def go
-        if @target.chr == 'ALL'
-          @bam.rewind
-          @data.replace(@bam.map { |r| row2ary(r) })
-        else
-          begin
-            r = @bam.query(target.to_s).map do |r|
-              row2ary(r)
-            end.to_a
-            @data.replace(r)
-          rescue StandardError => e
-            message_box_error('Error', e.message)
-          end
-        end
-      end
-
-      def launch
+      body do
         # menu
         menu('File') do
           menu_item('Open') do
@@ -100,7 +46,7 @@ module HTSGrid
         end
 
         # window
-        window("HTSGrid - #{@fpath}", 800, 500) do
+        window("HTSGrid", 800, 500) do
           margined true
 
           on_closing do
@@ -119,18 +65,18 @@ module HTSGrid
               editable_combobox do
                 stretchy false
                 if @bam
-                  items 'ALL', *@bam.header.target_names
+                  items 'ALL' #, *@bam.header.target_names
                 else
                   items 'ALL'
                 end
-                text <=> [target, :chr]
+                # text <=> [target, :chr]
                 on_changed do
                   go
                 end
               end
               entry do
                 stretchy false
-                text <=> [target, :pos]
+                # text <=> [target, :pos]
               end
               button('Go') do
                 stretchy false
@@ -140,7 +86,7 @@ module HTSGrid
               end
             end
             refined_table(
-              model_array: @data,
+              model_array: [], # @data
               table_columns: {
                 'QNAME' => :text,
                 'FLAG' => :text,
