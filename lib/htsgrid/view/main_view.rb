@@ -11,7 +11,9 @@ module HTSGrid
       attr_reader :presenter
 
       before_body do
-        @presenter = Model::MainPresenter.new(options)
+        open_dialog = ->() { open_file }
+        err_dialog = ->(title, message) { msg_box_error(title, message) }
+        @presenter = Model::MainPresenter.new(options, open_dialog, err_dialog)
       end
 
       body do
@@ -37,14 +39,15 @@ module HTSGrid
               editable_combobox do
                 stretchy false
                 items 'ALL'
-                # text <=> [target, :chr]
+                text <=> [@presenter, :chr]
                 on_changed do
-                  @presenter.goto
+                  # @presenter.pos = "0-0"
+                  # @presenter.goto
                 end
               end
               entry do
                 stretchy false
-                # text <=> [target, :pos]
+                text <=> [@presenter, :pos]
               end
               button('Go') do
                 stretchy false
