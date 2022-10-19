@@ -32,6 +32,10 @@ module HTSGrid
         nil
       end
 
+      def close
+        @hts.close
+      end
+
       def header
         return if @hts.nil?
 
