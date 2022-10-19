@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HTSGrid
   module Model
     class HtsFile
@@ -6,7 +8,7 @@ module HTSGrid
         when '.bam', '.sam', '.cram'
           @hts = HTS::Bam.open(path)
         when '.vcf', '.bcf'
-          @hts = HTS::Vcf.open(path)
+          @hts = HTS::Bcf.open(path)
         else
           LibUI.message_box_error(
             'Error',
@@ -26,7 +28,12 @@ module HTSGrid
       end
 
       def chr_list
-        @hts.header.target_names.clone
+        case @hts
+        when HTS::Bam
+          @hts.header.target_names
+        when HTS::Bcf
+          @hts.header.seqnames
+        end
       end
 
       def close

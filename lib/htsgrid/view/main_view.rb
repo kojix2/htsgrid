@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 require_relative '../model/main_presenter'
+require_relative '../model/bam_presenter'
+require_relative '../model/bcf_presenter'
+
+require_relative '../view/bam_view'
+require_relative '../view/bcf_view'
 
 module HTSGrid
   module View
@@ -14,13 +19,9 @@ module HTSGrid
       before_body do
         open_dialog = -> { open_file }
         err_dialog = ->(title, message) { msg_box_error(title, message) }
-        cb_set = lambda do |chr_list|
-          @flag = true
-          ::LibUI.combobox_clear(@cb.libui)
-          @cb.items = chr_list
-          @flag = false
-        end
-        @presenter = Model::MainPresenter.new(options, open_dialog, err_dialog, cb_set)
+        @bam_presenter = Model::BamPresenter.new(options, open_dialog, err_dialog, method(:bam_cb_set).to_proc)
+        @bcf_presenter = Model::BcfPresenter.new(options, open_dialog, err_dialog, method(:bcf_cb_set).to_proc)
+        @presenter = Model::MainPresenter.new(options, @bam_presenter, @bcf_presenter)
       end
 
       body do
@@ -32,90 +33,42 @@ module HTSGrid
 
           on_closing do
             @presenter.close
+            @presenter.close
           end
 
-          vertical_box do
-            horizontal_box do
-              stretchy false
-              button('Open') do
-                stretchy false
-                on_clicked do
-                  @presenter.open
-                end
-              end
-              @cb = combobox do
-                stretchy false
-                items ['']
-                selected_item <=> [@presenter, :chr]
-                on_selected do
-                  @presenter.pos = '0-1000'
-                  @presenter.goto unless @flag
-                end
-              end
-              entry do
-                stretchy false
-                text <=> [@presenter, :pos]
-              end
-              button('Go') do
-                stretchy false
-                on_clicked do
-                  @presenter.goto
-                end
-              end
+          tab do
+            tab_item('SAM/BAM/CRAM') do
+              create_bam_view
             end
-            refined_table(
-              model_array: @presenter.data,
-              table_columns: {
-                'QNAME' => :text,
-                'FLAG' => :text,
-                'RNAME' => :text,
-                'POS' => :text,
-                'MAPQ' => :text,
-                'CIGAR' => :text,
-                'RNEXT' => :text,
-                'PNEXT' => :text,
-                'TLEN' => :text,
-                'SEQ' => :text,
-                'QUAL' => :text
-              },
-              editable: false,
-              per_page: @presenter.per_page,
-              visible_page_count: true,
-            )
+            tab_item('VCF/BCF') do
+              create_bcf_view
+            end
           end
         end
       end
 
       def htsgrid_menu_bar
         file_menu
-        view_menu
         help_menu
       end
 
       def file_menu
         menu('File') do
-          menu_item('Open') do
+          menu_item('Open SAM/BAM/CRAM') do
             on_clicked do
-              @presenter.open
+              @bam_presenter.open
+            end
+          end
+
+          menu_item('Open VCF/BCF') do
+            on_clicked do
+              @bcf_presenter.open
             end
           end
 
           quit_menu_item do
             on_clicked do
               @presenter.close
-            end
-          end
-        end
-      end
-
-      def view_menu
-        menu('View') do
-          menu_item('Header') do
-            on_clicked do
-              msg_box(
-                'Header',
-                @presenter.header
-              )
             end
           end
         end
