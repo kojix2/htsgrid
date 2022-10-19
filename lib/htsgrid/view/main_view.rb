@@ -37,10 +37,10 @@ module HTSGrid
           end
 
           tab do
-            tab_item('SAM/BAM/CRAM') do
+            tab_item('BAM') do
               create_bam_view
             end
-            tab_item('VCF/BCF') do
+            tab_item('BCF') do
               create_bcf_view
             end
           end

@@ -20,7 +20,7 @@ module HTSGrid
 
       def close
         @bam_presenter.close
-        @bcf_presenter.close        
+        @bcf_presenter.close
       end
     end
   end

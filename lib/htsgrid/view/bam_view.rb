@@ -28,7 +28,7 @@ module HTSGrid
               selected_item <=> [@bam_presenter, :chr]
               on_selected do
                 @bam_presenter.pos = '0-1000'
-                @bam_presenter.goto unless @flag
+                @bam_presenter.goto unless @bam_flag
               end
             end
             entry do

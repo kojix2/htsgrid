@@ -1,0 +1,33 @@
+bundler: failed to load command: exe/htsgrid (exe/htsgrid)
+/home/kojix2/Ruby/htsgrid/lib/htsgrid/view/bcf_view.rb:31:in `block (4 levels) in create_bcf_view': undefined method `goto' for #<HTSGrid::Model::BcfPresenter:0x-10d49bd598e23d95> (NoMethodError)
+
+                @bcf_presenter.goto unless @bcf_flag
+                              ^^^^^
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/glimmer-dsl-libui-0.5.24/lib/glimmer/libui/control_proxy.rb:170:in `block in handle_listener'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/glimmer-dsl-libui-0.5.24/lib/glimmer/libui/control_proxy.rb:174:in `block (2 levels) in handle_listener'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/glimmer-dsl-libui-0.5.24/lib/glimmer/libui/control_proxy.rb:174:in `map'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/glimmer-dsl-libui-0.5.24/lib/glimmer/libui/control_proxy.rb:174:in `block in handle_listener'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/3.1.0/fiddle/closure.rb:45:in `call'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/libui-0.1.0.pre/lib/libui/ffi.rb:20:in `call'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/libui-0.1.0.pre/lib/libui/ffi.rb:20:in `uiMain'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/libui-0.1.0.pre/lib/libui/libui_base.rb:46:in `public_send'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/libui-0.1.0.pre/lib/libui/libui_base.rb:46:in `block (2 levels) in <module:LibUIBase>'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/glimmer-dsl-libui-0.5.24/lib/glimmer/libui/control_proxy/window_proxy.rb:69:in `show'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/glimmer-dsl-libui-0.5.24/lib/glimmer/libui/custom_window.rb:59:in `show'
+	from (eval):7:in `launch'
+	from exe/htsgrid:6:in `<top (required)>'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/bundler-2.3.24/lib/bundler/cli/exec.rb:58:in `load'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/bundler-2.3.24/lib/bundler/cli/exec.rb:58:in `kernel_load'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/bundler-2.3.24/lib/bundler/cli/exec.rb:23:in `run'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/bundler-2.3.24/lib/bundler/cli.rb:486:in `exec'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/bundler-2.3.24/lib/bundler/vendor/thor/lib/thor/command.rb:27:in `run'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/bundler-2.3.24/lib/bundler/vendor/thor/lib/thor/invocation.rb:127:in `invoke_command'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/bundler-2.3.24/lib/bundler/vendor/thor/lib/thor.rb:392:in `dispatch'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/bundler-2.3.24/lib/bundler/cli.rb:31:in `dispatch'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/bundler-2.3.24/lib/bundler/vendor/thor/lib/thor/base.rb:485:in `start'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/bundler-2.3.24/lib/bundler/cli.rb:25:in `start'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/bundler-2.3.24/exe/bundle:48:in `block in <top (required)>'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/bundler-2.3.24/lib/bundler/friendly_errors.rb:120:in `with_friendly_errors'
+	from /home/kojix2/.rbenv/versions/3.1.2/lib/ruby/gems/3.1.0/gems/bundler-2.3.24/exe/bundle:36:in `<top (required)>'
+	from /home/kojix2/.rbenv/versions/3.1.2/bin/bundle:25:in `load'
+	from /home/kojix2/.rbenv/versions/3.1.2/bin/bundle:25:in `<main>'

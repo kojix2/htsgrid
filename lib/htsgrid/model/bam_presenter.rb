@@ -2,7 +2,7 @@
 
 require_relative 'alignment'
 require_relative 'position'
-require_relative 'hts_file'
+require_relative 'bam_file'
 
 module HTSGrid
   module Model
@@ -21,31 +21,14 @@ module HTSGrid
         @cb_set = cb_set
       end
 
-      def close
-        @hts&.close
-      rescue StandardError => e
-        @err_dialog.call('Error', e.message)
-        nil
-      end
-
       def open
         path = @open_dialog.call
         return if path.nil?
 
-        @hts = HtsFile.new(path)
+        @hts = BamFile.new(path)
         @cb_set.call(@hts.chr_list)
       rescue StandardError => e
-        @err_dialog.call('Error', e.message)
-        nil
-      end
-
-      def goto
-        position = Position.new(chr, pos)
-        position.validate
-        new_data = @hts.query(position.to_s)
-        data.replace(new_data)
-      rescue StandardError => e
-        @err_dialog.call('Error', e.message)
+        @err_dialog.call('Error', "#{e.message}\n#{e.backtrace.join("\n")}")
         nil
       end
 
@@ -54,7 +37,7 @@ module HTSGrid
 
         @hts.header
       rescue StandardError => e
-        @err_dialog.call('Error', e.message)
+        @err_dialog.call('Error', "#{e.message}\n#{e.backtrace.join("\n")}")
         nil
       end
     end
