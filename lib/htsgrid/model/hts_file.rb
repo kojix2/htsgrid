@@ -16,7 +16,6 @@ module HTSGrid
       def header
         @hts.header.to_s
       end
-
     end
   end
 end

@@ -33,9 +33,8 @@ module HTSGrid
       end
 
       def close
-        @hts.close
+        @hts&.close
       end
-
 
       def goto
         position = Position.new(chr, pos)

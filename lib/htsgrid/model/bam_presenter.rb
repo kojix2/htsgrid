@@ -33,7 +33,7 @@ module HTSGrid
       end
 
       def close
-        @hts.close
+        @hts&.close
       end
 
       def header
