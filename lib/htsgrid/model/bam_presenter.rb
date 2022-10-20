@@ -36,6 +36,16 @@ module HTSGrid
         @hts&.close
       end
 
+      def goto
+        position = Position.new(chr, pos)
+        position.validate
+        new_data = @hts.query(position.to_s)
+        data.replace(new_data)
+      rescue StandardError => e
+        @err_dialog.call('Error', "#{e.message}\n#{e.backtrace.join("\n")}")
+        nil
+      end
+
       def header
         return if @hts.nil?
 
