@@ -11,7 +11,8 @@ module HTSGrid
       attr_reader :data
       attr_accessor :chr, :pos, :chr_list
 
-      def initialize(_options = {}, open_dialog, err_dialog, cb_set)
+      def initialize(_options = {}, browser_presenter, open_dialog, err_dialog, cb_set)
+        @browser_presenter = browser_presenter
         per_page = 30 # FIXME
         @data = Array.new(per_page + 1) { Alignment.new } # FIXME: Show navigation buttons
         @chr_list = ['']

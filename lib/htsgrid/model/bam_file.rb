@@ -35,7 +35,8 @@ module HTSGrid
           r.mpos + 1,
           r.isize,
           r.seq,
-          r.qual_string
+          r.qual_string,
+          r.endpos
         )
       end
     end
