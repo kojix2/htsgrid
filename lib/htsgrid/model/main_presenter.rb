@@ -11,8 +11,8 @@ module HTSGrid
 
       def initialize(options = {}, bam_presenter, bcf_presenter)
         @options = options
-        @initial_width = 800
-        @initial_height = 600
+        @initial_width = 1000 
+        @initial_height = 800
         @per_page = 30
         @bam_presenter = bam_presenter
         @bcf_presenter = bcf_presenter
