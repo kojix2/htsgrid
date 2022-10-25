@@ -32,7 +32,7 @@ module HTSGrid
           r.ref,
           r.alt,
           r.filter,
-          r.info.to_h.map{|k,v| "#{k}: #{v.to_s}"}.join(' ').strip, #FIXME
+          r.info.to_h.map { |k, v| "#{k}: #{v}" }.join(' ').strip, # FIXME
           r.format.to_s,
           ''
         )
